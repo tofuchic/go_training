@@ -1,0 +1,9 @@
+{
+  "protoc": {
+    "editor.formatOnSave": true
+  },
+  "clang-format.language.proto.style": "google",
+  "prettier.tabWidth": 2,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false
+}
