@@ -96,6 +96,31 @@
   }
   ```
 
+## Interceptor
+
+- 認証認可など、全てのメソッドに共通して行いたい処理を実装できる機能
+  - 決まった型で実装し、サーバサイドおよびクライアントサイドでそれぞれ使用できる
+    - 型
+      ```go
+      type UnaryServerInterceptor func(
+        ctx context.Context,
+        req interface{},
+        info *UnaryServerInfo, // リクエストを受け付けたメソッド名などのサーバサイドの情報
+        handler UnaryHandler, // リクエストを受け付けたメソッド
+      ) (resp interface{}, err error)
+      ```
+    - サーバサイドへの埋め込み
+      ```go
+      s := grpc.NewServer(
+        grpc.UnaryInterceptor(myInterceptor()),
+      )
+      ```
+    - クライアントサイドへの埋め込み
+      ```go
+      conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithUnaryInterceptor(myInterceptor()));
+      ```
+
+
 ## ワーク内容
 
 ### protoファイルの作成まで
