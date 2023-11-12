@@ -23,6 +23,13 @@ message UploadResponse {
   int32 size = 1;
 }
 
+message UploadAndNotifyProgressRequest {
+  bytes data = 1;
+}
+message UploadAndNotifyProgressResponse {
+  string message = 1;
+}
+
 service FileService {
   // Server Streaming RPC用のメソッド
   rpc ListFiles(ListFilesRequest) returns(ListFilesResponse);
@@ -30,4 +37,6 @@ service FileService {
   rpc Download(DownloadRequest) returns(stream DownloadResponse);
   // Client Streaming RPC用のメソッド
   rpc Upload(stream UploadRequest) returns(UploadResponse);
+  // Bidirectional Streaming RPC用のメソッド
+  rpc UploadAndNotifyProgress(stream UploadAndNotifyProgressRequest) returns(stream UploadAndNotifyProgressResponse);
 };

@@ -23,6 +23,7 @@ func main() {
 	callListFiles(client)
 	callDownload(client)
 	callUpload(client)
+	callUploadAndNotifyProgress(client)
 }
 
 
@@ -56,7 +57,6 @@ func callDownload(client pb.FileServiceClient) {
 }
 
 func callUpload(client pb.FileServiceClient) {
-
 	filepath := "storage/sports.txt"
 
 	file, err := os.Open(filepath)
@@ -93,4 +93,65 @@ func callUpload(client pb.FileServiceClient) {
 		log.Fatalln(err)
 	}
 	log.Printf("received data size: %v", res.GetSize())
+}
+
+func callUploadAndNotifyProgress(client pb.FileServiceClient) {
+	filepath := "storage/video.txt"
+
+	file, err := os.Open(filepath)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer file.Close()
+
+	stream, err := client.UploadAndNotifyProgress(context.Background())
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// Go Routin
+	// request
+	buf := make([]byte, 5)
+	go func() {
+		for {
+			n, err := file.Read(buf)
+
+			if n ==0 || err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatalln(err)
+			}
+
+			req := &pb.UploadAndNotifyProgressRequest{Data: buf[:n]}
+			sendErr := stream.Send(req)
+			if sendErr != nil {
+				log.Fatalln(sendErr)
+			}
+			// 一瞬でClientの処理が終わらないようにするための処理
+			time.Sleep(1 * time.Second)
+		}
+
+		err := stream.CloseSend()
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}()
+
+	// response
+	ch := make(chan struct{})
+	go func() {
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatalln(err)
+			}
+			log.Printf("received message: %v", res.GetMessage())
+		}
+		close(ch)
+	}()
+	<-ch
 }
