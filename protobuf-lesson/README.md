@@ -17,29 +17,35 @@
 
 ## ワーク内容
 
-- Goプロジェクトの初期化
+- Go プロジェクトの初期化
+
   ```bash
   go mod init protobuf-lesson
   ```
 
-- スキーマであるprotoファイルの作成
-  - proto/*.proto
+- スキーマである proto ファイルの作成
 
-- go言語での型定義生成
+  - proto/\*.proto
+
+- go 言語での型定義生成
+
   ```bash
   protoc -I. --go_out=. proto/*.proto
   ```
-    - これにより、`option go_package`で指定したディレクトリ名が生成され、その配下にgoファイルが生成
+
+  - これにより、`option go_package`で指定したディレクトリ名が生成され、その配下に go ファイルが生成
 
 - 生成されたコードに必要なモジュールのインストール
+
   ```bash
   go mod tidy
   ```
 
 - 型定義を使うスクリプトの作成
-  - main.goの作成
 
-- main.goの実行
+  - main.go の作成
+
+- main.go の実行
   ```bash
   go run main.go
   ```

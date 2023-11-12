@@ -1,22 +1,22 @@
 # 概要
 
-- gRPCについて学習する
+- gRPC について学習する
 
-## gRPCとは
+## gRPC とは
 
-- Google製のRPCで、OSS
-  - gはGoogleのgではない
-- 型定義にProtocol Buffersを使用していて、各言語毎の型定義のソースコードを自動生成できる
+- Google 製の RPC で、OSS
+  - g は Google の g ではない
+- 型定義に Protocol Buffers を使用していて、各言語毎の型定義のソースコードを自動生成できる
   - 言語間で違いを感じることなく
-- HTTP/2を使っているため高速
+- HTTP/2 を使っているため高速
 - 開発の流れ
-  1. protoファイルを作成
-  1. protoファイルをコンパイルして、クライアント・サーバの雛型となるソースコード（型定義）を生成
-  1. 生成された型定義を元にServiceを作成
-    - Serviceに1つ以上のメソッドを実装する
-  1. Serviceをコンパイルしてインタフェースを作成
+  1. proto ファイルを作成
+  1. proto ファイルをコンパイルして、クライアント・サーバの雛型となるソースコード（型定義）を生成
+  1. 生成された型定義を元に Service を作成
+  - Service に 1 つ以上のメソッドを実装する
+  1. Service をコンパイルしてインタフェースを作成
 
-## 4つの通信方式とServiceの記述例
+## 4 つの通信方式と Service の記述例
 
 - Unary RPC
 
@@ -38,6 +38,7 @@
   ```
 
 - Server Streaming RPC
+
   ```mermaid
   sequenceDiagram
     participant Client
@@ -47,6 +48,7 @@
     Server ->> Client: stream message
     Server ->> Client: stream message
   ```
+
   ```go
   message SomeRequest {}
   message SomeResponse {}
@@ -57,6 +59,7 @@
   ```
 
 - Client Streaming RPC
+
   ```mermaid
   sequenceDiagram
     participant Client
@@ -66,6 +69,7 @@
     Client ->> Server: stream message
     Server ->> Client: message
   ```
+
   ```go
   message SomeRequest {}
   message SomeResponse {}
@@ -76,6 +80,7 @@
   ```
 
 - Bidirectional Streaming RPC
+
   ```mermaid
   sequenceDiagram
     participant Client
@@ -87,6 +92,7 @@
     Server ->> Client: stream message
     Client ->> Server: stream message
   ```
+
   ```go
   message SomeRequest {}
   message SomeResponse {}
@@ -122,28 +128,37 @@
 - 汎用的なものはライブラリ化されているので、それを使うのが良い
   - https://github.com/grpc-ecosystem/go-grpc-middleware
 
-## gRPCにおけるエラーハンドリング
+## gRPC におけるエラーハンドリング
 
 - 定義されているものがあるので、これを使う
   - https://grpc.io/docs/guides/error/
 
+## Deadlines
+
+- タイムアウトのこと
+  - stream 通信をしている場合にも、一定時間経った段階で切り上げたりできる
+
 ## ワーク内容
 
-### protoファイルの作成まで
+### proto ファイルの作成まで
 
-- Goプロジェクトの初期化
+- Go プロジェクトの初期化
+
   ```bash
   go mod init grpc-lesson
   ```
 
-- スキーマであるprotoファイルの作成
-  - proto/*.proto
+- スキーマである proto ファイルの作成
 
-- go言語でのgRPC用の型定義生成
+  - proto/\*.proto
+
+- go 言語での gRPC 用の型定義生成
+
   ```bash
   protoc -I. --go_out=. --go-grpc_out=. proto/*.proto
   ```
-    - これにより、`option go_package`で指定したディレクトリ名が生成され、その配下にgoファイルが生成
+
+  - これにより、`option go_package`で指定したディレクトリ名が生成され、その配下に go ファイルが生成
 
 - 生成されたコードに必要なモジュールのインストール
   ```bash
@@ -153,9 +168,10 @@
 ### サーバサイドの実装
 
 - 型定義を使うスクリプトの作成
-  - server/main.goの作成
 
-- main.goの実行
+  - server/main.go の作成
+
+- main.go の実行
   ```bash
   go run main.go
   ```
@@ -163,9 +179,10 @@
 ### クライアントサイドの実装
 
 - 型定義を使うスクリプトの作成
-  - client/main.goの作成
 
-- main.goの実行
+  - client/main.go の作成
+
+- main.go の実行
   ```bash
   go run main.go
   ```

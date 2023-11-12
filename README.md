@@ -37,11 +37,10 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 - Go 言語はコンパイル言語である。そのため、Python における virtualenv 等が不要である。上記モジュールインストール時にも分かるが、モジュール毎に必要なサブモジュールのバイナリがダウンロードされるのが分かる
   - FYI: https://eli.thegreenplace.net/2020/you-dont-need-virtualenv-in-go/
 
-
-## protocol buffersの概要
+## protocol buffers の概要
 
 - [README.md](./protobuf-lesson/README.md)
 
-## gRPCの概要
+## gRPC の概要
 
 - [README.md](./grpc-lesson/README.md)
