@@ -12,12 +12,22 @@ message ListFilesResponse {
 message DownloadRequest {
   string filename = 1;
 };
-
 message DownloadResponse {
   bytes data = 1;
 };
 
+message UploadRequest {
+  bytes data = 1;
+}
+message UploadResponse {
+  int32 size = 1;
+}
+
 service FileService {
+  // Server Streaming RPC用のメソッド
   rpc ListFiles(ListFilesRequest) returns(ListFilesResponse);
+  // Server Streaming RPC用のメソッド
   rpc Download(DownloadRequest) returns(stream DownloadResponse);
+  // Client Streaming RPC用のメソッド
+  rpc Upload(stream UploadRequest) returns(UploadResponse);
 };
