@@ -119,7 +119,8 @@
       ```go
       conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithUnaryInterceptor(myInterceptor()));
       ```
-
+- 汎用的なものはライブラリ化されているので、それを使うのが良い
+  - https://github.com/grpc-ecosystem/go-grpc-middleware
 
 ## ワーク内容
 
