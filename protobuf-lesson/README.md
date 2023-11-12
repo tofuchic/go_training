@@ -15,8 +15,31 @@
 
 - Protocol Buffers はバイナリになるため人間には分かりにくいが、型安全で軽量なのでコンピュータには優しい
 
-## 環境構築
+## ワーク内容
 
-```bash
-go mod init protobuf-lesson
-```
+- Goプロジェクトの初期化
+  ```bash
+  go mod init protobuf-lesson
+  ```
+
+- スキーマであるprotoファイルの作成
+  - proto/*.proto
+
+- go言語での型定義生成
+  ```bash
+  protoc -I. --go_out=. proto/*.proto
+  ```
+    - これにより、`option go_package`で指定したディレクトリ名が生成され、その配下にgoファイルが生成
+
+- 生成されたコードに必要なモジュールのインストール
+  ```bash
+  go mod tidy
+  ```
+
+- 型定義を使うスクリプトの作成
+  - main.goの作成
+
+- main.goの実行
+  ```bash
+  go run main.go
+  ```
