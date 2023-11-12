@@ -122,6 +122,11 @@
 - 汎用的なものはライブラリ化されているので、それを使うのが良い
   - https://github.com/grpc-ecosystem/go-grpc-middleware
 
+## gRPCにおけるエラーハンドリング
+
+- 定義されているものがあるので、これを使う
+  - https://grpc.io/docs/guides/error/
+
 ## ワーク内容
 
 ### protoファイルの作成まで
